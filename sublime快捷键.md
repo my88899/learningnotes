@@ -1,0 +1,13 @@
+Keyboard|meaning
+--------|-------
+Ctrl+Shift+M|括号内内容
+Alt+Shift+W|对所选内容两侧加标签
+Ctrl+Shift+;|移除父标签
+Ctrl+Shift+'|选取对应标签
+Ctrl+Shift+A|选取对应标签内容
+Ctrl+Shift+D|复制本行
+Ctrl+Shift+V|保持所进的粘贴
+Ctrl+Shifi+Y|计算数学表达式
+Ctrl+K+U|转换为大写
+Ctrl+K+L|转换为小写
+Alt+Shift+up/down|数字递增/递减
