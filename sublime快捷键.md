@@ -29,6 +29,7 @@ Ctrl+J|将选中区域合并成一行
 Ctrl+Shift+up/down|上移下移一行
 Ctrl+K+U|转换为大写
 Ctrl+K+L|转换为小写
+<<<<<<< Updated upstream
 Ctrl+Shifi+Y|计算数学表达式
 Alt+Shift+up/down|数字递增/递减
 
