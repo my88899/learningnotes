@@ -61,6 +61,12 @@ Ctrl+R|搜索+@函数名
 Ctrl+;|搜索+#变量名
 Ctrl+G|搜索+:行号
 Ctrl+Shift+P|打开命令框
+Ctrl+J|将选中区域合并成一行
+Ctrl+Shift+up/down|上移下移一行
+Ctrl+K+U|转换为大写
+Ctrl+K+L|转换为小写
+Ctrl+Shifi+Y|计算数学表达式
+Alt+Shift+up/down|数字递增/递减
 
 <span id="tagsm"></span>
 ###标签相关
