@@ -22,8 +22,10 @@ Ctrl+Shifi+Y|计算数学表达式
 Alt+Shift+up/down|数字递增/递减
 
 <span id="textm"></span>
->
 ##文本编辑
+>
+Keyboard|Meaning
+--------|-------
 Ctrl+T|左右字符互换
 Ctrl+L|选择整行(包括换行)
 Ctrl+J|将选中区域合并成一行
