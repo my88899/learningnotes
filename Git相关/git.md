@@ -46,3 +46,8 @@ status|meaning
 ###4\.移除未被追踪的本地文件<br>
 * 显示会被移除的文件 `git clean -f -n`
 * 移除文件 `git clean -f`
+###5\.合并多个Commit
+>1. 首先查看现有的commit &emsp;&emsp;&emsp;&emsp; `git log --oneline`
+>2. 找到不需要合并的最近的commit `git rebase -i hash`
+>3. 将需要合并的commit前指改为 &emsp; `squash`
+>>如操作中有失误，撤销用 `git rebase --abort`
