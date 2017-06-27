@@ -19,6 +19,7 @@ tag:
 [git log输出控制](#logOutputControl)
 * 图示显示提交历史<br>`git log --graph --pretty=oneline --abbrev-commit`
 ### 解决冲突
+
 ## 文件状态
 >
 status|meaning
@@ -30,6 +31,7 @@ status|meaning
 当前状态 `git status`<br>
 历史记录 `git log`<br>
 每个分支最后的提交 `git branch -v`<br>
+显示本地仓库的引用日志`git reflog`
 ### 标签
 创建标签|code
 --------|----
@@ -43,12 +45,13 @@ status|meaning
 导出版本库|git archive --format=zip HEAD>nb.zip<br>git archive --format=zip --prefix=nb1.0/ HEAD>nb.zip
 推送标签信息|git push origin --tags
 推送特定标签|git push origin tagname(v1.0.0)
-删除标签|git tag -d <tag-name>
-删除远程标签|git push origin --delete tag <tag-name>
+删除标签|git tag -d tag-name
+删除远程标签|git push origin --delete tag tag-name
 
 ## 分支管理
 ### 1\.创建分支<br>
 * 创建本地分支<br>`git branch local_branch`
+* 重命名当前分支<br>`git branch -m <branch>`
 * 分支切换<br>`git checkout local_branch`
 * **可简写为**`git checkout -b local_branch`
 ### 2\.本地分支与远程分支
@@ -58,6 +61,10 @@ status|meaning
 * 远程分支已创建并与本地分支建立联系，在分支上推送<br>`git push`
 * 远程分支已创建并未关联本地分支，在分支上推送<br>`git push -u origin/remote_branch`<br>仅关联的话可：<br>`git branch -u origin/remote_branch`
 * 远程分支没有创建分支，在分支上推送(同名话':'之后可省略)<br>`git push origin local_branch:remote_branch`
+* 创建新的远程库链接`git remote add <name> <url>`
+* 重定向远程库链接(Fork工作方式设定上有仓库远程连接为`upstream url`)`git remote set-url <name> <url>`
+* 重命名远程连接`git remote rename <old-name> <new-name>`
+* 移除远程库的链接`git remote rm <name>`
 ### 3\.查看分支状态
 * 查看本地分支 &emsp; `git branch`
 * 查看远程库信息 `git ls-remote`<br>或`git remote (-v 查看权限)/show remote_branch`
@@ -67,13 +74,54 @@ status|meaning
 * 若newbranch名字分支已存在，则需要-M强制重命名(不建议)<br>`git branch -m|-M oldbranch newbranch`
 ### 5\.删除分支
 * 删除本地分支<br>`git branch -d (-force) local_branch`
+* 强制删除本地分支<br>`git branch -D <branch>`
 * 删除远程分支<br>`git push origin --delete remote_branch`<br>或`git push origin :remote_branch`
+### 6\.获取远程库信息
+* 拉取远程库所有分支，但不合并进本地库`git fetch <remote>`
+* 拉取远程库指定分支`git fetch <remote> <branch>`
+* 将远程库拉取并合并`git pull <remote>`等价于`git fetch`+`git merge`
+* 将远程库拉取并利用rebase合并`git pull --rebase <remote>`
 
+
+
+## 滚回修改
+
+### 1\.checkout方法
+* 查看之前状态`git checkout <logHASH>`
+* 查看之前某文件的状态`git checkout <logHASH> <fileName>`
+* 回到当前状态`git checkout master`
+* 回到当前状态`git checkout HEAD <fileName>`
+
+### 2\.revert方法
+>撤销已提交的快照(生成新的提交在所在分支)
+
+* 撤销某已提交的快照，并应用到当前分支`git revert <commit>`
+![revert](./src/gitReset.jpg)
+
+### 3\.reset方法
+>移除提交，回到之前的状态，只能针对当前回溯
+
+* 常用语撤销缓存区和工作目录的修改（只能用于本地修改，**不可恢复**）
+* 从缓存器移除特定文件，但不改变工作目录`git reset <file>`
+* 重设缓冲区，但不改变工作目录，取消左右文件的缓存，但不会覆盖任何修改`git reset`
+* 重设缓冲区和工作目录，匹配最近一次提交`git reset --hard`
+* 将当前分支末端移动到`<commit>`但不改变工作目录，`<commit>`之后的更改会保留在工作目录中<br>`git reset <commit>`
+* 清楚了`<commit>`之后所有的提交 <br>`git reset --hard <commit>`
+
+![compareRevertAndReset](./src/gitRevert.jpg)
+
+### 4\.删除未跟踪的文件`clean`
+* 显示将被删除的文件`git clean -n`
+* 移除当前目录下未被跟踪的文件`git clean -f`
+* 移除限制在某个路径下`git clean -f <path>`
+* 移除未被追踪的本地文件及目录`git clean -df`
+* 移除中包含一般忽略的文件`git clean -xf`
 ## 小技巧
 ### 1\.修改错误的提交信息
-* 编辑最近的一次提交（未推送）<br>`git commit --amend -m "new_commit_message"`
-* 若已退送，则需要强制推送提交以覆盖（慎用）<br>`git push <remote> <branch> --force`
+* 编辑最近的一次提交（未推送）<br>`git commit --amend`
 * 提交了，发现提交信息写错了，修改上次提交的信息可以用这条命令 <br>`git commit --amend -m "new commit message"`
+* 同上，但不需要修改上次提交的信息<br>`git commit --amend --no-edit`
+* 若已退送，则需要强制推送提交以覆盖（慎用）<br>`git push <remote> <branch> --force`
 * 不会产生新的提交历史记录，复用HEAD留言，增补提交，而不增加提交记录 <br>`git commit -C HEAD -a --amend`
 ### 2\.提交前撤销git add
 * 往暂存区(staging area)中加入错误文件<br>移除一个文件<br>`git reset <file_name>`<br>移除所有未提交的文件<br>`git reset`
